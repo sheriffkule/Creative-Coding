@@ -26,6 +26,19 @@ body {
     white-space: nowrap;
     padding-inline: 0 20px;
     border-top: 5px solid black;
+    color: transparent;
+    background: linear-gradient(to right, red, orange, yellow, royalblue, navy, red);
+    background-size: 200% auto;
+    background-position: 0% 0%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: animate 5s linear infinite alternate;
+}
+
+@keyframes animate {
+    to {
+        background-position: -200% 0%;
+    }
 }
 
 #title1::before {
@@ -35,4 +48,6 @@ body {
     font-size: 60px;
     text-align: center;
     width: 100%;
+    background: inherit;
+    animation: animate 5s linear infinite alternate;
 }

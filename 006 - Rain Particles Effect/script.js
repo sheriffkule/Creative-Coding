@@ -16,13 +16,13 @@ let title = {
   height: 10,
 };
 
-const gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, canvas.height)
-gradient.addColorStop(0, "red");
-gradient.addColorStop(0.2, "orange");
-gradient.addColorStop(0.4, "yellow");
-gradient.addColorStop(0.6, "#0f0");
-gradient.addColorStop(0.8, "royalblue");
-gradient.addColorStop(1, "navy");
+const gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, canvas.height);
+gradient.addColorStop(0, 'red');
+gradient.addColorStop(0.2, 'orange');
+gradient.addColorStop(0.4, 'yellow');
+gradient.addColorStop(0.6, '#0f0');
+gradient.addColorStop(0.8, 'royalblue');
+gradient.addColorStop(1, 'navy');
 
 class Particle {
   constructor(x, y) {
@@ -31,12 +31,14 @@ class Particle {
     this.size = Math.random() * 15 + 1;
     this.weight = Math.random() * 1 + 1;
     this.directionX = -1;
+    this.random = Math.random();
   }
   update() {
     if (this.y > canvas.height) {
       this.y = 0 - this.size;
       this.weight = Math.random() * 1 + 1;
       this.x = Math.random() * canvas.width * 1.3;
+      this.size = Math.random() * 15 + 1;
     }
     this.weight += 0.02;
     this.y += this.weight;
@@ -50,15 +52,18 @@ class Particle {
       this.y + this.size > title.y
     ) {
       this.y -= 3;
-      this.weight *= -0.5;
+      this.weight *= -0.6;
     }
+
+    if (this.size > 0.1 && this.y > canvas.height * 0.5) this.size -= 0.04;
+    if (this.random > 0.5) this.directionX = 1;
   }
   draw() {
     ctx.fillStyle = gradient;
     ctx.lineWidth = this.size * 0.5;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.stroke()
+    ctx.stroke();
     ctx.closePath();
     ctx.fill();
   }
@@ -76,8 +81,6 @@ init();
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   ctx.fillStyle = 'rgba(47, 79, 79, 0.01)';
-  //   ctx.fillRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < particleArray.length; i++) {
     particleArray[i].update();
     particleArray[i].draw();
