@@ -67,31 +67,17 @@ file.addEventListener('change', function () {
 });
 
 function drawVisualiser(bufferLength, x, barWidth, barHeight, dataArray) {
-  //   for (let i = 0; i < bufferLength; i++) {
-  //     barHeight = dataArray[i] * 2;
-  //     const red = i * barHeight * 0.05;
-  //     const green = i * 0.5;
-  //     const blue = barHeight;
-  //     ctx.fillStyle = 'white';
-  //     ctx.fillRect(canvas.width * 0.5 - x, canvas.height - barHeight - 30, barWidth, 15);
-  //     ctx.fillStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
-  //     ctx.fillRect(canvas.width * 0.5 - x, canvas.height - barHeight, barWidth, barHeight);
-  //     x += barWidth;
-  //   }
   for (let i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i] * 1.5;
+    barHeight = dataArray[i] * 2.5;
     ctx.save();
     ctx.translate(canvas.width * 0.5, canvas.height * 0.5);
-    ctx.rotate(i * Math.PI * 10 / bufferLength);
-    // const red = i * barHeight * 0.05;
-    // const green = i * 0.5;
-    // const blue = barHeight;
-    // ctx.fillStyle = 'white';
-    // ctx.fillRect(0, 0, barWidth, 15);
-    const hue = i * 0.3;
-    // ctx.fillStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
-    ctx.fillStyle = 'hsl(' + hue + ',100%,' + barHeight * 0.33 + '%)';
-    ctx.fillRect(0, 0, barWidth, barHeight);
+    ctx.rotate(i * 4.184);
+    const hue = 120 + i * 0.05;
+    ctx.fillStyle = 'hsl(' + hue + ',100%, 50%)';
+    ctx.beginPath();
+    ctx.arc(10, barHeight * 0.5, barHeight * 0.5, 0, Math.PI / 4);
+    ctx.fill();
+    ctx.stroke();
     x += barWidth;
     ctx.restore();
   }
