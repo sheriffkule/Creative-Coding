@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+    overflow: hidden;
+}
+
+.buttons {
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 100vw;
+    text-align: center;
+}
+
+#canvas1 {
+    background: black;
+}
+
+.button {
+    position: relative;
+    width: 25%;
+    height: 120px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 50px;
+    border: 5px solid white;
+    background: transparent;
+    transition: .2s;
+    font-size: 50px;
+    font-weight: 900;
+    color: white;
+    line-height: 110px;
+    min-width: 300px;
+    background: black;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50px;
+    transition: .4s;
+    background: black;
+    -webkit-text-stroke: 2px white;
+}
+
+.button:nth-child(1)::before {
+    content: 'HOME';
+}
+
+.button:nth-child(2)::before {
+    content: 'SHOP';
+}
+
+.button:nth-child(3)::before {
+    content: 'ABOUT';
+}
+
+.button:hover::before {
+    color: black;
+    -webkit-text-stroke: 2px white;
+}
