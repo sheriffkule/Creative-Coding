@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#canvas1 {
+    border: 5px solid silver;
+}
+
+.controls {
+    display: flex;
+    margin-top: 12px;
+}
+
+.controls > input {
+    width: 60%;
+}
+
+.controls > label {
+    width: 35%;
+    color: white;
+    font-size: 16px;
+}
