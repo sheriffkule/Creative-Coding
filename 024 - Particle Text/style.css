@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+}
+
+canvas {
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+input {
+    position: absolute;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px;
+    z-index: 100;
+    background: rgb(78, 78, 78);
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+}
+
+input:where(:focus, :focus-within) {
+    background: rgb(61, 61, 61);
+}
+
+input::placeholder {
+    color: #ddd;
+}
