@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Bangers", system-ui;
 }
 
 body {
@@ -26,6 +29,7 @@ input {
     outline: none;
     border: none;
     border-radius: 6px;
+    letter-spacing: 1px;
 }
 
 input:where(:focus, :focus-within) {
