@@ -6,7 +6,31 @@ canvas.height = 850;
 
 // global Settings
 ctx.lineWidth = 10;
-ctx.strokeStyle = 'magenta';
+
+// canvas shadows
+// ctx.shadowOffsetX = 2;
+// ctx.shadowOffsetY = 2;
+// ctx.shadowColor = 'black';
+
+// gradients
+const gradient1 = ctx.createLinearGradient(canvas.width * 0.5, 0, canvas.width * 0.5, canvas.height);
+gradient1.addColorStop('0.2', 'pink');
+gradient1.addColorStop('0.3', 'red');
+gradient1.addColorStop('0.4', 'orange');
+gradient1.addColorStop('0.5', 'yellow');
+gradient1.addColorStop('0.6', 'green');
+gradient1.addColorStop('0.7', 'turquoise');
+gradient1.addColorStop('0.8', 'violet');
+const gradient2 = ctx.createRadialGradient(canvas.width * 0.5, canvas.height * 0.5, 30,canvas.width * 0.5, canvas.height * 0.5, 500);
+gradient2.addColorStop('0.2', 'green')
+gradient2.addColorStop('0.5', 'red')
+gradient2.addColorStop('0.8', 'blue')
+
+// canvas pattern
+const patternImage = document.getElementById('patternImage');
+const pattern1 = ctx.createPattern(patternImage, 'no-repeat')
+
+ctx.strokeStyle = gradient1;
 
 class Line {
   constructor(canvas) {
@@ -16,9 +40,11 @@ class Line {
     this.history = [{ x: this.x, y: this.y }];
     this.lineWidth = Math.floor(Math.random() * 15 + 1);
     this.hue = Math.floor(Math.random() * 360);
-    this.maxLength = 10;
-    this.speedX = 10;
-    this.speedY = 5;
+    this.maxLength = Math.floor(Math.random() * 150 + 10);
+    this.speedX = Math.random() * 1 - 0.5;
+    this.speedY = 7;
+    this.lifeSpan = this.maxLength * 3;
+    this.timer = 0;
   }
   draw(context) {
     context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)';
@@ -31,17 +57,30 @@ class Line {
     context.stroke();
   }
   update() {
+    this.timer++;
+    if (this.timer < this.lifeSpan) {
+      this.x += this.speedX + Math.random() * 20 - 10;
+      this.y += this.speedY + Math.random() * 20 - 10;
+      this.history.push({ x: this.x, y: this.y });
+      if (this.history.length > this.maxLength) {
+        this.history.shift();
+      }
+    } else if (this.history.length <= 1) {
+      this.reset();
+    } else {
+      this.history.shift();
+    }
+  }
+  reset() {
     this.x = Math.random() * this.canvas.width;
     this.y = Math.random() * this.canvas.height;
-    this.history.push({ x: this.x, y: this.y });
-    if (this.history.length > this.maxLength) {
-        this.history.shift()
-    }
+    this.history = [{ x: this.x, y: this.y }];
+    this.timer = 0;
   }
 }
 
 const linesArray = [];
-const numberOfLines = 1;
+const numberOfLines = 50;
 for (let i = 0; i < numberOfLines; i++) {
   linesArray.push(new Line(canvas));
 }
@@ -49,8 +88,8 @@ for (let i = 0; i < numberOfLines; i++) {
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   linesArray.forEach((line) => {
-    // line.draw(ctx);
-    // line.update();
+    line.draw(ctx);
+    line.update();
   });
   requestAnimationFrame(animate);
 }
