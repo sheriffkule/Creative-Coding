@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avatar Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Avatar Generator</h1>
+    <canvas id="avatarCanvas" width="300" height="400"></canvas>
+    <h3>Controls:</h3>
+    <div class="controls">
+      <button onclick="randomizeAvatar()">Randomize</button>
+      <button onclick="changeOption('skinTone')">Skin Tone</button>
+      <button onclick="changeOption('hair')">Hair</button>
+      <button onclick="changeOption('hairColor')">Hair Color</button>
+      <button onclick="changeOption('eyes')">Eyes</button>
+      <button onclick="changeOption('mouth')">Mouth</button>
+      <button onclick="changeOption('eyewear')">Eyewear</button>
+      <button onclick="changeOption('shirtColor')">Shirt Color</button>
+      <button onclick="downloadAvatar()">Download</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

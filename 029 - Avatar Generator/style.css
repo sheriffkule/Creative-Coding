@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(#343434, #1c1c1c);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+canvas {
+    border: 1px solid #555;
+    margin-block: 1rem;
+    border-radius: 8px;
+    corner-shape: scoop;
+    box-shadow: 4px 4px 0 #777;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-width: 650px;
+    border: 1px solid #5e5e5e;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    corner-shape: scoop;
+}
+
+button {
+    flex-basis: 150px;
+    background: #444;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    corner-shape: scoop;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.25s;
+
+    &:hover {
+        background-color: #626262;
+        corner-shape: bevel;
+    }
+    &:active {
+        scale: .98;
+    }
+}
+
+button:has(~ button:hover) {
+    background: #323232;
+}
+
+button:hover ~ button {
+    background: #323232;
+}
