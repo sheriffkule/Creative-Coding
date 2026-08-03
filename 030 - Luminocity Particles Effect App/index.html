@@ -7,32 +7,39 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="controls">
-      <h3>Particle Settings</h3>
+    <div class="container">
+      <h3>
+        <span>Particle Settings</span>
+        <span class="toggle" title="Show/Hide Controls">&blacktriangle;</span>
+      </h3>
+      <div id="controls" class="show">
+        <label for="count">Count: <span id="countValue">100</span></label>
+        <input type="range" id="count" min="10" max="500" value="100" />
 
-      <label for="count">Count: <span id="countValue">100</span></label>
-      <input type="range" id="count" min="10" max="500" value="100" />
+        <label for="maxRadius">Max Radius: <span id="maxRadiusValue">2.5</span></label>
+        <input type="range" id="maxRadius" min="0.5" max="10" step="0.5" value="2.5" />
 
-      <label for="maxRadius">Max Radius: <span id="radiusValue">2.5</span></label>
-      <input type="range" id="maxRadius" min="0.5" max="10" step="0.5" value="2.5" />
+        <label for="speed">Max Speed: <span id="speedValue">0.5</span></label>
+        <input type="range" id="speed" min="0" max="2" step="0.1" value="0.5" />
 
-      <label for="speed">Max Speed: <span id="speedValue">0.5</span></label>
-      <input type="range" id="speed" min="0" max="2" step="0.1" value="0.5" />
+        <label for="particleColor">Particle Color: <span id="particleColorValue">#ffffff</span></label>
+        <input type="color" id="particleColor" value="#ffffff" />
 
-      <label for="glowColor">Glow Color:</label>
-      <input type="color" id="glowColor" value="#ffffcc" />
+        <label for="glowColor">Glow Color: <span id="glowColorValue">#ffffcc</span></label>
+        <input type="color" id="glowColor" value="#ffffcc" />
 
-      <label for="trail">TrailOpacity (0.01=long): <span id="trailValue">0.10</span></label>
-      <input type="range" id="trail" min="0.01" max="1" step="0.01" value="0.1" />
+        <label for="trail">TrailOpacity (0.01=long): <span id="trailValue">0.10</span></label>
+        <input type="range" id="trail" min="0.01" max="1" step="0.01" value="0.1" />
 
-      <hr />
-      <h4>Dynamic Effects</h4>
+        <hr />
+        <h4>Dynamic Effects</h4>
 
-      <label for="gravity">Central Gravity Strength: <span id="gravityValue">0.00</span></label>
-      <input type="range" id="gravity" min="0.0" max="0.05" step="0.005" value="0" />
+        <label for="gravity">Central Gravity Strength: <span id="gravityValue">0.00</span></label>
+        <input type="range" id="gravity" min="0.0" max="0.05" step="0.005" value="0" />
 
-      <label for="flicker">Flicker/Pulse Speed: <span id="flickerValue">0.00</span></label>
-      <input type="range" id="flicker" min="0.0" max="0.1" step="0.01" value="0.0" />
+        <label for="flicker">Flicker/Pulse Speed: <span id="flickerValue">0.00</span></label>
+        <input type="range" id="flicker" min="0.0" max="0.1" step="0.01" value="0.0" />
+      </div>
     </div>
 
     <canvas id="particleCanvas"></canvas>
