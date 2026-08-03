@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: radial-gradient(circle at center, #222, #000);
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100dvh;
+}
+
+#controls {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    padding: 15px 20px;
+    background: rgb(10 10 10 / 0.8);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgb(255 255 255 / 0.5);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+}
+
+#controls :is(h3, h4) {
+    margin-block: 10px 6px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.5);
+    padding-bottom: 8px;
+    color: #ccffff;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid lightblue;
+    margin-block: 10px;
+}
+
+label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-block: 16px 6px;
+
+    span {
+        font-weight: 600;
+        color: #fff3cb;
+    }
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    -moz-apperance: none;
+    flex: 1;
+    appearance: none;
+    border-radius: 6px;
+    height: 8px;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    background: rgb(255 255 255 / 0.2);
+    cursor: ew-resize;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #2575fc;
+    border-radius: 50%;
+    border: 1px solid #a0a0c0;
+    height: 16px;
+    width: 16px;
+    transition: .25s;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+    background-color: #0034cf;
+    scale: 1.1;
+    box-shadow: 0 0 6px rgb(255 255 255 / 0.5);
+}
+
+input[type="color"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  height: 25px;
+  padding: 0;
+  transition: .25s ease-in;
+
+  &:hover {
+    transform: scaleY(1.1);
+    box-shadow: 0 0 8px rgb(255 255 255 / 0.2);
+    border-radius: 10px;
+    corner-shape: bevel;
+  }
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch{
+  border: 1;
+  padding: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner{
+  border: 0;
+}
+
+::-moz-focus-inner{
+  padding: 0;
+}
