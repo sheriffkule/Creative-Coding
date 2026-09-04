@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -42,4 +43,29 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+}
+
+.controls-btn {
+    background: rgb(255 255 255 / 0.1);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgb(255 255 255 / 0.3);
+
+    &:hover {
+        background: rgb(255 255 255 / 0.2);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 5px 15px rgb(255 255 255 / 0.2);
+    }
+    &:active {
+        transform: translateY(0) scale(1);
+    }
 }
