@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Fireworks App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="title">Interactive Fireworks App</div>
+      <button class="controls-btn" id="openModal"><i class="fas fa-sliders-h"></i> Controls</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item">
+        <i class="fas fa-fire" style="color: #ff5e7d"></i>
+        <span>Fireworks: <span class="stat-value" id="fireworksCount">0</span></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-star" style="color: #ffd166"></i>
+        <span>Particles: <span class="stat-value" id="particlesCount">0</span></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-bolt" style="color: #06d6a0"></i>
+        <span>FPS: <span class="stat-value" id="fpsCounter">60</span></span>
+      </div>
+    </div>
+
+    <div class="click-instruction">
+      <i class="fas fa-mouse-pointer"></i> Click anywhere to launch a firework
+    </div>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">Fireworks Controls</h2>
+          <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="modal-content">
+          <div class="controls-grid">
+            <div class="control-group">
+              <h3 class="section-title"><i class="fas fa-rocket"></i> Launch Settings</h3>
+
+              <div class="control-row">
+                <label for="fireworksRate">Launch Rate:</label>
+                <span class="value-display" id="rateValue">3</span>
+              </div>
+              <input type="range" id="fireworksRate" min="1" max="10" value="3" />
+
+              <div class="control-row">
+                <label for="particlesCount">Particles Count:</label>
+                <span class="value-display" id="particlesValue">100</span>
+              </div>
+              <input type="range" id="particlesCount" min="20" max="300" value="100" />
+            </div>
+
+            <div class="control-group">
+              <h3 class="section-title"><i class="fas fa-expand"></i> Size & Physics</h3>
+
+              <div class="control-row">
+                <label for="explosionSize">Explosion Size:</label>
+                <span class="value-display" id="sizeValue">60</span>
+              </div>
+              <input type="range" id="explosionSize" min="10" max="150" value="60" />
+
+              <div class="control-row">
+                <label for="gravityValue">Gravity:</label>
+                <span class="value-display" id="gravityDisplay">0.1</span>
+              </div>
+              <input type="range" id="gravityValue" min="0" max="20" step="0.1" />
+            </div>
+
+            <div class="control-group">
+              <h3 class="section-title"><i class="fas fa-palette"></i> Color Palette</h3>
+              <div class="color-palette" id="colorPalette">
+                <!-- Color options will be added by JavaScript -->
+              </div>
+            </div>
+
+            <div class="control-group">
+              <h3 class="section-title"><i class="fas fa-magic"></i> Firework Styles</h3>
+              <div class="style-palette" id="stylePalette">
+                <!-- Color options will be added by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3 class="section-title"><i class="fas fa-cogs"></i> Preset Displays</h3>
+            <div class="presets-grid">
+              <div class="preset-btn" id="presetRainbow">
+                <div class="style-icon">🌈</div>
+                Rainbow Burst
+              </div>
+              <div class="preset-btn" id="presetGentle">
+                <div class="style-icon">🌸</div>
+                Gentle Showers
+              </div>
+              <div class="preset-btn" id="presetIntense">
+                <div class="style-icon">💥</div>
+                Intense Blast
+              </div>
+              <div class="preset-btn" id="presetSparkle">
+                <div class="style-icon">✨</div>
+                Sparkle Night
+              </div>
+              <div class="preset-btn" id="presetGalaxy">
+                <div class="style-icon">🌌</div>
+                Galactic Show
+              </div>
+              <div class="preset-btn" id="presetHeart">
+                <div class="style-icon">💖</div>
+                Heart Shape
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons-group">
+            <button class="btn-primary" id="launchFirework">
+              <i class="fas fa-rocket"></i> Launch Firework Now
+            </button>
+            <button class="btn-secondary" id="toggleAutoLaunch">
+              <i class="fas fa-play"></i> Start Auto Launch
+            </button>
+            <button class="btn-secondary" id="clearAll"><i class="fas fa-trash-alt"></i> Clear All</button>
+          </div>
+
+          <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+            <ul>
+              <li>Click anywhere on the screen to launch a firework at that position.</li>
+              <li>Use <span class="highlight">Controls</span> button to open settings.</li>
+              <li>Select different colors and styles for unique firework effects.</li>
+              <li>Try presets for instant amazing displays.</li>
+              <li>Toggle <span class="highlight">Auto Lunch</span> for automatic fireworks.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
