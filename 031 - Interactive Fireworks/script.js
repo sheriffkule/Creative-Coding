@@ -339,4 +339,180 @@ class Firework {
       particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize));
     }
   }
+
+  createFountainExplosion() {
+    for (let i = 0; i < config.particlesCount; i++) {
+      const angle = Math.random() * Math.PI - Math.PI / 2;
+      const speed = Math.random() * 6 + 2;
+      const velocity = {
+        x: Math.cos(angle) * speed * 0.7,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 3 + 1;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize, 'fountain'));
+    }
+  }
+
+  createCometExplosion() {
+    for (let i = 0; i < config.particlesCount; i++) {
+      // Create a comet with a trail
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 6 + 2;
+      const velocity = {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 4 + 1;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize));
+    }
+  }
+
+  createSpiralExplosion() {
+    const spiralTurns = 5;
+    const pointsPerTurn = config.particlesCount / spiralTurns;
+
+    for (let turn = 0; turn < pointsPerTurn; turn++) {
+      for (let i = 0; i < pointsPerTurn; i++) {
+        const progress = i / pointsPerTurn;
+        const angle = progress * Math.PI * 2 + turn * Math.PI * 2;
+        const radius = progress * config.explosionSize * 0.5;
+
+        const xOffset = Math.cos(angle) * radius;
+        const yOffset = Math.sin(angle) * radius;
+
+        const speed = Math.random() * 2 + 1;
+        const velocity = {
+          x: Math.cos(angle) * speed,
+          y: Math.sin(angle) * speed,
+        };
+
+        const size = Math.random() * 2 + 1;
+        const color = this.getColorVariant(this.color);
+
+        particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize, 'spiral'));
+      }
+    }
+  }
+
+  getColorVariant(baseColor) {
+    // Return a slightly varied color
+    return baseColor;
+  }
+
+  draw() {
+    // Draw trail
+    for (let i = 0; i < this.trail.length; i++) {
+      const point = this.trail[i];
+      const alpha = i / this.trail.length;
+      const radius = this.radius * alpha;
+
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = alpha * 0.7;
+      ctx.fill();
+    }
+
+    // Draw firework head
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    // Add glow effect
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = 0.3;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// Base Particle class
+class Particle {
+  constructor(x, y, velocity, color, size, explosionSize, style) {
+    this.x = x;
+    this.y = y;
+    this.velocity = velocity;
+    this.color = color;
+    this.size = size;
+    this.life = 1;
+    this.decay = Math.random() * 0.02 * 0.01;
+    this.gravity = config.gravity;
+    this.explosionSize = explosionSize;
+    this.wind = (Math.random() - 0.5) * 0.2;
+    this.style = style;
+    this.time = 0;
+    activeParticlesCount++;
+  }
+
+  update() {
+    this.time += 0.05;
+    this.velocity.y += this.gravity;
+    this.velocity.x += this.wind;
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+    this.life -= this.decay;
+
+    // Apply air resistance
+    this.velocity.x *= 0.99;
+    this.velocity.y *= 0.99;
+
+    if (this.life <= 0) activeParticlesCount--;
+
+    return this.life > 0;
+  }
+
+  draw() {
+    ctx.globalAlpha = this.life;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// Specialized particle types
+class SparkleParticle extends Particle {
+  draw() {
+    const sparkleIntensity = Math.sin(this.time * 10) * 0.5 + 0.5;
+    ctx.globalAlpha = this.life * sparkleIntensity;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.Pi * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    // Add cross lines for sparkle effect
+    ctx.beginPath();
+    ctx.moveTo(this.x - this.size * 2, this.y);
+    ctx.lineTo(this.x + this.size * 2, this.y);
+    ctx.moveTo(this.x, this.y - this.size * 2);
+    ctx.lineTo(this.x, this.y + this.size * 2);
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+}
+
+class TwirlParticle extends Particle {
+  draw() {
+    // Add swirling motion
+    const swirl = 0.1;
+    const angle = Math.atan2(this.velocity.y, this.velocity.x);
+    const newAngle = angle + swirl;
+    const speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
+
+    this.velocity.x = Math.cos(newAngle) * speed;
+    this.velocity.y = Math.sin(newAngle) * speed;
+  }
 }
