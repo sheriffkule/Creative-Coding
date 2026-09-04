@@ -514,5 +514,160 @@ class TwirlParticle extends Particle {
 
     this.velocity.x = Math.cos(newAngle) * speed;
     this.velocity.y = Math.sin(newAngle) * speed;
+
+    return super.update();
+  }
+}
+
+class CometParticle extends Particle {
+  draw() {
+    // Draw comet with trail
+    ctx.globalAlpha = this.life;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    // Draw trail
+    const tailLength = 10;
+    ctx.beginPath();
+    ctx.moveTo(this.x - this.velocity.x * tailLength, this.y - this.velocity.y * tailLength);
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = this.size / 2;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// Launch a firework
+function launchFirework(targetX, targetY) {
+  const startX = Math.random() * canvas.width;
+  const startY = canvas.height;
+
+  // If target not specified, create a random target
+  if (!targetX || !targetY) {
+    targetX = Math.random() * canvas.width;
+    targetY = Math.random * (canvas.height / 2) + 50;
+  }
+
+  fireworks.push(new Firework(startX, startY, targetX, targetY, config.currentColor, config.currentStyle));
+
+  activeFireworksCount++;
+  updateControlDisplays();
+}
+
+// Launch multiple fireworks automatically
+function autoLaunchFireworks() {
+  if (!autoLaunch) return;
+
+  for (let i = 0; i < config.fireworksRate; i++) {
+    if (Math.random() < 0.7) launchFirework();
+  }
+}
+
+// Clear all fireworks and particles
+function clearAll() {
+  fireworks = [];
+  particles = [];
+  activeFireworksCount = 0;
+  activeParticlesCount = 0;
+  updateControlDisplays();
+}
+
+// Draw background starts
+function drawStars() {
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+  for (let i = 0; i < 100; i++) {
+    // Static stars
+    const x = (i * 53) % canvas.width;
+    const y = (i * 37) % canvas.height;
+    const size = Math.random() * 1.5;
+
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Twinkling stars
+  const time = Date.now() * 0.001;
+  for (let i = 0; i < 30; i++) {
+    const x = (i * 71) % canvas.width;
+    const y = (i * 59) % canvas.height;
+    const alpha = 0.5 + 0.5 * Math.sin(time * 3 + i);
+    const size = 1 + Math.sin(time * 4 + 1) * 0.5;
+
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    ctx.fill();
+  }
+}
+
+// Apply preset
+function applyPreset(presetName) {
+  switch (presetName) {
+    case 'rainbow':
+      config.fireworksRate = 5;
+      config.particlesCount = 120;
+      config.explosionSize = 70;
+      config.gravity = 0.05;
+      config.currentColor = '#ff5e7d';
+      config.currentStyle = 'sparkle';
+      break;
+    case 'gentle':
+      config.fireworksRate = 2;
+      config.particlesCount = 60;
+      config.explosionSize = 40;
+      config.gravity = 0.2;
+      config.currentColor = '#4cc9f0';
+      config.currentStyle = 'fountain';
+      break;
+    case 'intense':
+      config.fireworksRate = 8;
+      config.particlesCount = 150;
+      config.explosionSize = 80;
+      config.gravity = 0.15;
+      config.currentColor = '#ff8a00';
+      config.currentStyle = 'standard';
+      break;
+    case 'sparkle':
+      config.fireworksRate = 4;
+      config.particlesCount = 200;
+      config.explosionSize = 50;
+      config.gravity = 0.1;
+      config.currentColor = '#9b5de5';
+      config.currentStyle = 'sparkle';
+      break;
+    case 'galaxy':
+      config.fireworksRate = 6;
+      config.particlesCount = 180;
+      config.explosionSize = 90;
+      config.gravity = 0.08;
+      config.currentColor = '#7209b7';
+      config.currentStyle = 'spiral';
+      break;
+    case 'heart':
+      config.fireworksRate = 3;
+      config.particlesCount = 80;
+      config.explosionSize = 60;
+      config.gravity = 0.12;
+      config.currentColor = '#ff006e';
+      config.currentStyle = 'heart';
+      break;
+  }
+
+  // Update UI controls
+  document.getElementById('fireworksRate').value = config.fireworksRate;
+  document.getElementById('particlesCount').value = config.particlesCount;
+  document.getElementById('explosionSize').value = config.explosionSize;
+  document.getElementById('gravityValue').value = config.gravity * 10;
+
+  initColorPalette();
+  initStylePalette();
+  updateControlDisplays();
+
+  // Launch a few fireworks to demonstrate
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => launchFirework(), i * 400);
   }
 }

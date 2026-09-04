@@ -105,7 +105,35 @@ body {
     background: rgb(0 0 0 / 0.8);
     z-index: 1000;
     display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+}
+
+.modal {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    width: min(1400px, 90%);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgb(255 255 255 / 0.1);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    background: linear-gradient(90deg, #ff5e7d, #ff8a00);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
