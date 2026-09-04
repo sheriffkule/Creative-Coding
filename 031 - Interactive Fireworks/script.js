@@ -168,3 +168,175 @@ document.getElementById('gravityValue').addEventListener('input', function () {
   config.gravity = parseInt(this.value) / 10;
   updateControlDisplays();
 });
+
+// Fireworks base class
+class Firework {
+  constructor(x, y, targetX, targetY, color, style) {
+    this.x = x;
+    this.y = y;
+    this.startX = x;
+    this.startY = y;
+    this.targetX = targetX;
+    this.targetY = targetY;
+    this.color = color;
+    this.style = style;
+    this.distanceToTarget = Math.hypot(targetX - x, targetY - y);
+    this.distanceTraveled = 0;
+    this.speed = 8;
+    this.brightness = Math.random() * 50 + 50;
+    this.radius = 2;
+    this.trail = [];
+    this.maxTrailLength = 5;
+    this.exploded = false;
+    this.time = 0;
+  }
+
+  update() {
+    this.time += 0.1;
+
+    // Move towards target
+    const dx = this.targetX - this.startX;
+    const dy = this.targetY - this.startY;
+
+    this.distanceTraveled += this.speed;
+    const progress = this.distanceTraveled / this.distanceToTarget;
+
+    this.x = this.startX + dx * progress;
+    this.y = this.startY + dy * progress;
+
+    // Add to trail
+    this.trail.push({ x: this.x, y: this.y });
+    if (this.trail.length > this.maxTrailLength) {
+      this.trail.shift();
+    }
+
+    // Check if reached target
+    if (progress >= 1) this.explode();
+  }
+
+  explode() {
+    this.exploded = true;
+    activeFireworksCount--;
+
+    // Create explosion particles based on style
+    this.createExplosion();
+  }
+
+  createExplosion() {
+    switch (this.style) {
+      case 'standard':
+        this.createStandardExplosion();
+        break;
+      case 'sparkle':
+        this.createSparkleExplosion();
+        break;
+      case 'heart':
+        this.createHeartExplosion();
+        break;
+      case 'ring':
+        this.createRingExplosion();
+        break;
+      case 'twirl':
+        this.createTwirlExplosion();
+        break;
+      case 'fountain':
+        this.createFountainExplosion();
+        break;
+      case 'comet':
+        this.createCometExplosion();
+        break;
+      case 'spiral':
+        this.createSpiralExplosion();
+        break;
+      default:
+        this.createStandardExplosion();
+    }
+  }
+
+  createStandardExplosion() {
+    for (let i = 0; i < config.particlesCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 5 + 2;
+      const velocity = {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 3 + 1;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize, this.style));
+    }
+  }
+
+  createSparkleExplosion() {
+    for (let i = 0; i < config.particlesCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3 + 1;
+      const velocity = {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 2 + 0.5;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new SparkleParticle(this.x, this.y, velocity, color, size, convig.explosionSize));
+    }
+  }
+
+  createHeartExplosion() {
+    const heartPoints = 30;
+    for (let i = 0; i < heartPoints; i++) {
+      const t = (i / heartPoints) * Math.PI * 2;
+      // heart parametric equation
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+      const speed = Math.random() * 2 + 1;
+      const velocity = {
+        x: (x / 16) * speed,
+        y: (y / 16) * speed,
+      };
+
+      const size = Math.random() * 4 + 2;
+
+      particles.push(
+        new Particle(this.x, this.y, velocity, this.color, size, config.explosionSize * 0.8, 'heart'),
+      );
+    }
+  }
+
+  createRingExplosion() {
+    const ringPoints = config.particlesCount;
+    for (let i = 0; i < ringPoints; i++) {
+      const angle = (i / ringPoints) * Math.PI * 2;
+      const speed = Math.random() * 2 + 3;
+      const velocity = {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 2 + 1;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize, 'ring'));
+    }
+  }
+
+  createTwirlExplosion() {
+    for (let i = 0; i < config.particlesCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 4 + 1;
+      const velocity = {
+        x: Math.cos(angle) * speed,
+        y: Math.sin(angle) * speed,
+      };
+
+      const size = Math.random() * 2 + 1;
+      const color = this.getColorVariant(this.color);
+
+      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize));
+    }
+  }
+}

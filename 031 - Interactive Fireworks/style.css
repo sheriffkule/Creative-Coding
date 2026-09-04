@@ -69,3 +69,29 @@ body {
         transform: translateY(0) scale(1);
     }
 }
+
+.stats {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgb(255 255 255 / 0.06);
+    padding: 15px 25px;
+    border-radius: 15px;
+    z-index: 100;
+    font-size: 1.125rem;
+    display: flex;
+    gap: 20px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgb(255 255 255 / 0.3);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-value {
+    color: #ffd166;
+    font-weight: bold;
+}
