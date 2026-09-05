@@ -131,7 +131,7 @@ function updateControlDisplays() {
   document.getElementById('sizeValue').textContent = config.explosionSize;
   document.getElementById('gravityDisplay').textContent = config.gravity.toFixed(1);
   document.getElementById('fireworksCount').textContent = activeFireworksCount;
-  document.getElementById('particlesCount').textContent = activeParticlesCount;
+  document.getElementById('activeParticlesCount').textContent = activeParticlesCount;
 }
 
 // Update FPS counter
@@ -165,7 +165,7 @@ document.getElementById('explosionSize').addEventListener('input', function () {
 });
 
 document.getElementById('gravityValue').addEventListener('input', function () {
-  config.gravity = parseInt(this.value) / 10;
+  config.gravity = parseFloat(this.value) / 10;
   updateControlDisplays();
 });
 
@@ -281,7 +281,7 @@ class Firework {
       const size = Math.random() * 2 + 0.5;
       const color = this.getColorVariant(this.color);
 
-      particles.push(new SparkleParticle(this.x, this.y, velocity, color, size, convig.explosionSize));
+      particles.push(new SparkleParticle(this.x, this.y, velocity, color, size, config.explosionSize));
     }
   }
 
@@ -336,7 +336,7 @@ class Firework {
       const size = Math.random() * 2 + 1;
       const color = this.getColorVariant(this.color);
 
-      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize));
+      particles.push(new TwirlParticle(this.x, this.y, velocity, color, size, config.explosionSize, 'twirl'));
     }
   }
 
@@ -369,22 +369,19 @@ class Firework {
       const size = Math.random() * 4 + 1;
       const color = this.getColorVariant(this.color);
 
-      particles.push(new Particle(this.x, this.y, velocity, color, size, config.explosionSize));
+      particles.push(new CometParticle(this.x, this.y, velocity, color, size, config.explosionSize, 'comet'));
     }
   }
 
   createSpiralExplosion() {
     const spiralTurns = 5;
-    const pointsPerTurn = config.particlesCount / spiralTurns;
+    const pointsPerTurn = Math.ceil(config.particlesCount / spiralTurns);
 
-    for (let turn = 0; turn < pointsPerTurn; turn++) {
+    for (let turn = 0; turn < spiralTurns; turn++) {
       for (let i = 0; i < pointsPerTurn; i++) {
         const progress = i / pointsPerTurn;
         const angle = progress * Math.PI * 2 + turn * Math.PI * 2;
         const radius = progress * config.explosionSize * 0.5;
-
-        const xOffset = Math.cos(angle) * radius;
-        const yOffset = Math.sin(angle) * radius;
 
         const speed = Math.random() * 2 + 1;
         const velocity = {
@@ -487,7 +484,7 @@ class SparkleParticle extends Particle {
     const sparkleIntensity = Math.sin(this.time * 10) * 0.5 + 0.5;
     ctx.globalAlpha = this.life * sparkleIntensity;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.Pi * 2);
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.fill();
 
@@ -505,7 +502,7 @@ class SparkleParticle extends Particle {
 }
 
 class TwirlParticle extends Particle {
-  draw() {
+  update() {
     // Add swirling motion
     const swirl = 0.1;
     const angle = Math.atan2(this.velocity.y, this.velocity.x);
@@ -545,9 +542,9 @@ function launchFirework(targetX, targetY) {
   const startY = canvas.height;
 
   // If target not specified, create a random target
-  if (!targetX || !targetY) {
+  if (targetX == null || targetY == null) {
     targetX = Math.random() * canvas.width;
-    targetY = Math.random * (canvas.height / 2) + 50;
+    targetY = Math.random() * (canvas.height / 2) + 50;
   }
 
   fireworks.push(new Firework(startX, startY, targetX, targetY, config.currentColor, config.currentStyle));
@@ -693,7 +690,7 @@ function animate() {
   }
 
   // Update and draw particles
-  for (let i = particles.length - 1; i > 0; i--) {
+  for (let i = particles.length - 1; i >= 0; i--) {
     if (!particles[i].update()) {
       particles.splice(i, 1);
     } else {
