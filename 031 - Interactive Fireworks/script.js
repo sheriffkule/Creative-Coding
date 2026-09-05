@@ -126,7 +126,7 @@ function initStylePalette() {
 
 // Update control displays
 function updateControlDisplays() {
-  document.getElementById('reteValue').textContent = config.fireworksRate;
+  document.getElementById('rateValue').textContent = config.fireworksRate;
   document.getElementById('particlesValue').textContent = config.particlesCount;
   document.getElementById('sizeValue').textContent = config.explosionSize;
   document.getElementById('gravityDisplay').textContent = config.gravity.toFixed(1);
@@ -671,3 +671,92 @@ function applyPreset(presetName) {
     setTimeout(() => launchFirework(), i * 400);
   }
 }
+
+// Animation loop
+function animate() {
+  // Clear canvas with fade effect for trails
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Add stars in background
+  drawStars();
+
+  // Update and draw fireworks
+  for (let i = fireworks.length - 1; i >= 0; i--) {
+    fireworks[i].update();
+    fireworks[i].draw();
+
+    // Remove exploded fireworks
+    if (fireworks[i].exploded) {
+      fireworks.splice(i, 1);
+    }
+  }
+
+  // Update and draw particles
+  for (let i = particles.length - 1; i > 0; i--) {
+    if (!particles[i].update()) {
+      particles.splice(i, 1);
+    } else {
+      particles[i].draw();
+    }
+  }
+
+  updateFPS();
+  updateControlDisplays();
+  requestAnimationFrame(animate);
+}
+
+// Event listeners for buttons
+document.getElementById('launchFirework').addEventListener('click', () => {
+  launchFirework();
+  modalOverlay.style.display = 'none';
+});
+
+document.getElementById('toggleAutoLaunch').addEventListener('click', function () {
+  autoLaunch = !autoLaunch;
+  const icon = this.querySelector('i');
+  const text = autoLaunch ? 'Stop Auto' : 'Start Auto Launch';
+
+  this.innerHTML = `<i class="fas ${autoLaunch ? 'fa-pause' : 'fa-play'}"></i> ${text}`;
+
+  if (autoLaunch) {
+    autoLunchInterval = setInterval(autoLaunchFireworks, 500);
+  } else {
+    clearInterval(autoLunchInterval);
+  }
+});
+
+document.getElementById('clearAll').addEventListener('click', clearAll);
+
+// Preset buttons
+document.getElementById('presetRainbow').addEventListener('click', () => applyPreset('rainbow'));
+document.getElementById('presetGentle').addEventListener('click', () => applyPreset('gentle'));
+document.getElementById('presetIntense').addEventListener('click', () => applyPreset('intense'));
+document.getElementById('presetSparkle').addEventListener('click', () => applyPreset('sparkle'));
+document.getElementById('presetGalaxy').addEventListener('click', () => applyPreset('galaxy'));
+document.getElementById('presetHeart').addEventListener('click', () => applyPreset('heart'));
+
+// Launch firework on canvas click
+canvas.addEventListener('click', (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+
+  launchFirework(x, y);
+});
+
+// Initialize the app
+function init() {
+  resizeCanvas();
+  initColorPalette();
+  initStylePalette();
+  updateControlDisplays();
+  animate();
+
+  // Launch initial fireworks
+  setTimeout(() => launchFirework(), 500);
+  setTimeout(() => launchFirework(), 1000);
+  setTimeout(() => launchFirework(), 1500);
+}
+
+// Start the app
+init();
