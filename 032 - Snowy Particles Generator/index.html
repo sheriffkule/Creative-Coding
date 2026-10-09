@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snowy Particles Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <h3>❄ Snow Settings</h3>
+
+      <fieldset class="control-group">
+        <label for="maxSnowFlakes">Density: <span id="densityValue">150</span></label>
+        <input type="range" id="maxSnowFlakes" min="50" max="500" value="150" step="10" />
+      </fieldset>
+
+      <fieldset class="control-group">
+        <label for="maxSpeed">Fall Speed: <span id="speedValue">1.5</span></label>
+        <input type="range" id="maxSpeed" min="0.5" max="5" value="1.5" step="0.1" />
+      </fieldset>
+
+      <fieldset class="control-group">
+        <label for="maxWind">Linear Wind: <span id="windValue">0.5</span></label>
+        <input type="range" id="maxWind" min="0" max="2" value="0.5" step="0.1" />
+      </fieldset>
+
+      <hr />
+
+      <fieldset class="control-group">
+        <label for="maxSize">Max Flake Size (Radius): <span id="sizeValue">1</span></label>
+        <input type="range" id="maxSize" min="1" max="10" value="3" step="0.5" />
+      </fieldset>
+
+      <fieldset class="control-group">
+        <label for="wavyMotion">Wavy Drift Amplitude: <span id="wavyValue">1</span></label>
+        <input type="range" id="wavyMotion" min="0" max="5" value="1" step="0.5" />
+      </fieldset>
+
+      <fieldset class="control-group">
+        <label for="snowColor">Flake Color: </label>
+        <input type="color" id="snowColor" value="#ffffff" />
+      </fieldset>
+    </div>
+
+    <canvas id="snowCanvas"></canvas>
+    <script src="script.js"></script>
+  </body>
+</html>
