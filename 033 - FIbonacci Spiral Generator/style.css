@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(#f2f2f2, #c0c0c0);
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    width: min(500px, 98%);
+    border-radius: 14px;
+    box-shadow: 0 12px 25px rgb(0 0 0 / 0.15);
+    text-align: center;
+    margin-top: 30px;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 5px 10px 10px;
+    border-radius: 8px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+}
+
+button {
+    padding: 10px 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #4caf50;
+    color: white;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #43a047;
+}
+
+.output-box {
+    background: #f0f0f0;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#output {
+    font-size: 15px;
+    margin-top: 6px;
+    word-wrap: break-word;
+}
+
+#sum {
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    margin-top: 15px;
+    background: #efefef;
+    border-radius: 12px;
+    border: 1px solid #cfdfdf;
+}
+
+#error {
+    color: red;
+    font-size: 14px;
+}

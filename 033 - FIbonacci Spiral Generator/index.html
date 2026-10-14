@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fibonacci Spiral Generator App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Fibonacci Spiral Generator</h1>
+
+      <fieldset class="controls">
+        <legend>Controls</legend>
+        <input
+          type="number"
+          name="terms"
+          id="terms"
+          aria-label="Number of Fibonacci terms"
+          placeholder="Enter number of terms (1-50)"
+          min="1"
+          max="50"
+          step="1" />
+        <button type="button" onclick="generate()">Generate</button>
+        <button type="button" onclick="resetApp()">Reset</button>
+      </fieldset>
+
+      <p id="error" role="alert"></p>
+
+      <div class="output-box">
+        <h3>Fibonacci Sequence</h3>
+        <div id="output" aria-live="polite"></div>
+        <p id="sum"></p>
+      </div>
+
+      <canvas id="canvas" width="450" height="450" role="img" aria-label="Animated Fibonacci spiral"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
